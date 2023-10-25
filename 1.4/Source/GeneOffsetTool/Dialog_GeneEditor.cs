@@ -86,7 +86,7 @@ namespace GeneOffsetTool
                 if(float.TryParse(_drawScaleBuffer, out parsedValue)) { selectedGene.graphicData.drawScale = parsedValue; }
 
                 GeneExtension geneExt = selectedGene.GetModExtension<GeneExtension>();
-                if(geneExt == null || (geneExt.offsets.south == null && geneExt.offsets.north == null && geneExt.offsets.east == null && geneExt.offsets.west == null))
+                if(geneExt == null || ((geneExt.offsets.south?.bodyTypes?.NullOrEmpty() ?? true) && (geneExt.offsets.north?.bodyTypes?.NullOrEmpty() ?? true) && (geneExt.offsets.east?.bodyTypes?.NullOrEmpty() ?? true) && (geneExt.offsets.west?.bodyTypes?.NullOrEmpty() ?? true)))
                 {
                     listing.AddVector3TextFields("Draw Offset", ref selectedGene.graphicData.drawOffset.x, ref selectedGene.graphicData.drawOffset.y, ref selectedGene.graphicData.drawOffset.z);
                 }
