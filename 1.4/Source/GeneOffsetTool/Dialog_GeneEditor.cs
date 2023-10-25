@@ -148,7 +148,7 @@ namespace GeneOffsetTool
         {
             foreach(GeneDef gene in DefDatabase<GeneDef>.AllDefs)
             {
-                if (gene.HasGraphic || gene.graphicData?.fur != null)
+                if (gene.HasGraphic)
                 {
                     yield return new FloatMenuOption(gene.label, delegate { selectedGene = gene; });
                 }
