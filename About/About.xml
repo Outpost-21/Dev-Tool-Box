@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Gene Adjuster</name>
+	<author>Neronix17</author>
+	<packageId>Neronix17.UI.GeneAdjuster</packageId>
+	<url>https://www.patreon.com/neronix17</url>
+	<supportedVersions>
+		<li>1.4</li>
+	</supportedVersions>
+	<description>Little dev tool for editing visual genes in-game, at least to some degree.</description>
+</ModMetaData>
