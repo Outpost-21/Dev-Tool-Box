@@ -61,12 +61,13 @@ namespace DevToolBox
 
         public void DoBuildingStuff(Listing_Standard listing)
         {
-            if (Find.Selector.SingleSelectedThing is Building)
+
+            if (Find.Selector?.SingleSelectedThing is Building)
             {
                 Building selBuilding = (Building)Find.Selector.SingleSelectedThing;
                 listing.Label("Selected Building: " + selBuilding.LabelCap);
                 listing.GapLine();
-                listing.LabelBacked("Graphic Data", Color.grey);
+                listing.LabelBacked("Graphic Data", Color.white);
                 listing.AddVector2TextFields("Draw Size", ref selBuilding.def.graphicData.drawSize.x, ref selBuilding.def.graphicData.drawSize.y, -999f, 999f);
                 listing.AddVector3TextFields("Draw Offset", ref selBuilding.def.graphicData.drawOffset.x, ref selBuilding.def.graphicData.drawOffset.y, ref selBuilding.def.graphicData.drawOffset.z, -999f, 999f);
                 if (listing.ButtonText("Recache Graphics"))
