@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Gene Adjuster</name>
+	<name>Dev Tool Box</name>
 	<author>Neronix17</author>
-	<packageId>Neronix17.UI.GeneAdjuster</packageId>
+	<packageId>Neronix17.UI.DevToolBox</packageId>
 	<url>https://www.patreon.com/neronix17</url>
 	<supportedVersions>
 		<li>1.4</li>
 	</supportedVersions>
-	<description>Little dev tool for editing visual genes in-game, at least to some degree.</description>
+	<description>Little package of tools for handling in-game alterations to certain values (mostly visual) that would otherwise require a game restart.\n\nRequires Tabula Rasa as it provides options for a handful of visual comps &amp; extensions and makes use of some UI tools for building the UI quickly and easily.\nRequires the Vanilla Expanded Framework as it provides options for the gene extension to be altered at runtime.</description>
 	<modDependencies>
 		<li>
 			<packageId>OskarPotocki.VanillaFactionsExpanded.Core</packageId>

@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
-namespace GeneOffsetTool
+namespace DevToolBox
 {
-    public class GeneOffsetToolMod : Mod
+    public class DevToolBoxMod : Mod
     {
-        public static GeneOffsetToolMod mod;
-        public static GeneOffsetToolSettings settings;
+        public static DevToolBoxMod mod;
+        public static DevToolBoxSettings settings;
 
         public Vector2 optionsScrollPosition;
         public float optionsViewRectHeight;
@@ -23,10 +23,10 @@ namespace GeneOffsetTool
         internal static string VersionDir => Path.Combine(mod.Content.ModMetaData.RootDir.FullName, "Version.txt");
         public static string CurrentVersion { get; private set; }
 
-        public GeneOffsetToolMod(ModContentPack content) : base(content)
+        public DevToolBoxMod(ModContentPack content) : base(content)
         {
             mod = this;
-            settings = GetSettings<GeneOffsetToolSettings>();
+            settings = GetSettings<DevToolBoxSettings>();
 
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             CurrentVersion = $"{version.Major}.{version.Minor}.{version.Build}";

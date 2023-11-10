@@ -9,7 +9,7 @@ using VanillaGenesExpanded;
 using Verse;
 using TabulaRasa;
 
-namespace GeneOffsetTool
+namespace DevToolBox
 {
     [StaticConstructorOnStartup]
     public class Dialog_GeneEditor : Window
@@ -41,7 +41,7 @@ namespace GeneOffsetTool
             closeOnCancel = false;
             preventCameraMotion = false;
             drawInScreenshotMode = false;
-            windowPosition = Prefs.DevPalettePosition;
+            windowPosition = DevToolBoxPrefs.GeneEditorPosition;
             onlyDrawInDevMode = true;
             lastLabelCacheFrame = RealTime.frameCount;
         }

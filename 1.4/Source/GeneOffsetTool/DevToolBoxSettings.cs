@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
-namespace GeneOffsetTool
+namespace DevToolBox
 {
-    public class GeneOffsetToolSettings : ModSettings
+    public class DevToolBoxSettings : ModSettings
     {
         public bool verboseLogging = false;
 
         public Vector2 geneEditorPosition;
+        public Vector2 buildingEditorPosition;
 
         public override void ExposeData()
         {

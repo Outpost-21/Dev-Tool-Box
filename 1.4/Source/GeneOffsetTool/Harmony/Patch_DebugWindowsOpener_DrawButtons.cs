@@ -11,7 +11,7 @@ using HarmonyLib;
 using System.Reflection.Emit;
 using System.Reflection;
 
-namespace GeneOffsetTool
+namespace DevToolBox
 {
 	[HarmonyPatch(typeof(DebugWindowsOpener), "DrawButtons")]
 	public static class Patch_DebugWindowsOpener_DrawButtons
@@ -40,7 +40,7 @@ namespace GeneOffsetTool
 
 		public static void DrawDebugToolbarButton(WidgetRow widgets)
 		{
-			if (widgets.ButtonIcon(TexTabulaRasa.DebugXenotypeEditor, "Open the Gene Editor. \n\nAllows editing of genes, mainly their offsets, for easier determining of values for visuals in-game without having to reload constantly."))
+			if (widgets.ButtonIcon(DevToolBoxTex.DebugGeneEditor, "Open the Gene Editor. \n\nAllows editing of genes, mainly their offsets."))
 			{
 				WindowStack windowStack = Find.WindowStack;
 				if (windowStack.IsOpen<Dialog_GeneEditor>())
@@ -50,6 +50,18 @@ namespace GeneOffsetTool
 				else
 				{
 					windowStack.Add(new Dialog_GeneEditor());
+				}
+			}
+			if (widgets.ButtonIcon(DevToolBoxTex.DebugBuildingEditor, "Open the Building Editor. \n\nAllows editing of buildings, mainly their offsets, and scales."))
+			{
+				WindowStack windowStack = Find.WindowStack;
+				if (windowStack.IsOpen<Dialog_BuildingEditor>())
+				{
+					windowStack.TryRemove(typeof(Dialog_BuildingEditor));
+				}
+				else
+				{
+					windowStack.Add(new Dialog_BuildingEditor());
 				}
 			}
 		}

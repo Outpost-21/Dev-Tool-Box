@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
-namespace GeneOffsetTool
+namespace DevToolBox
 {
     [StaticConstructorOnStartup]
-    public static class GeneOffsetToolPrefs
+    public static class DevToolBoxPrefs
 	{
-		public static GeneOffsetToolSettings Setting => GeneOffsetToolMod.settings;
+		public static DevToolBoxSettings Setting => DevToolBoxMod.settings;
 
 		public static Vector2 GeneEditorPosition
 		{
@@ -30,7 +30,23 @@ namespace GeneOffsetTool
 			}
 		}
 
-		static GeneOffsetToolPrefs()
+		public static Vector2 BuildingEditorPosition
+		{
+			get
+			{
+				return Setting.buildingEditorPosition;
+			}
+			set
+			{
+				if (Setting.buildingEditorPosition != value)
+				{
+					Setting.buildingEditorPosition = value;
+					Setting.Write();
+				}
+			}
+		}
+
+		static DevToolBoxPrefs()
         {
 
         }

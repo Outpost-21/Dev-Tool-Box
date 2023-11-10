@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
-namespace GeneOffsetTool
+namespace DevToolBox
 {
     public static class LogUtil
     {
@@ -17,7 +17,7 @@ namespace GeneOffsetTool
 
         public static readonly Color errColor = new Color(0.901f, 0.192f, 0.152f);
 
-        public static readonly string msgPrefix = $":: {GeneOffsetToolMod.mod.Content.Name} ::";
+        public static readonly string msgPrefix = $":: {DevToolBoxMod.mod.Content.Name} ::";
 
         public static void LogMessage(string msg)
         {
