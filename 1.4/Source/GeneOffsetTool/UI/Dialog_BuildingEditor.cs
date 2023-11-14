@@ -57,11 +57,16 @@ namespace DevToolBox
             optionsViewRectHeight = listing.CurHeight;
             listing.End();
             Widgets.EndScrollView();
+            if (!Mathf.Approximately(windowRect.x, windowPosition.x) || !Mathf.Approximately(windowRect.y, windowPosition.y))
+            {
+                windowPosition = new Vector2(windowRect.x, windowRect.y);
+                DevToolBoxPrefs.BuildingEditorPosition = windowPosition;
+            }
         }
 
         public void DoBuildingStuff(Listing_Standard listing)
         {
-
+            if(Find.GameInitData == null) { return; }
             if (Find.Selector?.SingleSelectedThing is Building)
             {
                 Building selBuilding = (Building)Find.Selector.SingleSelectedThing;

@@ -60,6 +60,11 @@ namespace DevToolBox
             optionsViewRectHeight = listing.CurHeight;
             listing.End();
             Widgets.EndScrollView();
+            if (!Mathf.Approximately(windowRect.x, windowPosition.x) || !Mathf.Approximately(windowRect.y, windowPosition.y))
+            {
+                windowPosition = new Vector2(windowRect.x, windowRect.y);
+                DevToolBoxPrefs.GeneEditorPosition = windowPosition;
+            }
         }
 
         public string _drawScaleBuffer;

@@ -25,7 +25,7 @@ namespace DevToolBox
 				if (Setting.geneEditorPosition != value)
 				{
 					Setting.geneEditorPosition = value;
-					Setting.Write();
+					DevToolBoxMod.settings.Write();
 				}
 			}
 		}
@@ -41,7 +41,7 @@ namespace DevToolBox
 				if (Setting.buildingEditorPosition != value)
 				{
 					Setting.buildingEditorPosition = value;
-					Setting.Write();
+					DevToolBoxMod.settings.Write();
 				}
 			}
 		}
