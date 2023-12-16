@@ -66,7 +66,6 @@ namespace DevToolBox
 
         public void DoBuildingStuff(Listing_Standard listing)
         {
-            if(Find.GameInitData == null) { return; }
             if (Find.Selector?.SingleSelectedThing is Building)
             {
                 Building selBuilding = (Building)Find.Selector.SingleSelectedThing;
