@@ -5,7 +5,7 @@
 	<packageId>Neronix17.UI.DevToolBox</packageId>
 	<url>https://www.patreon.com/neronix17</url>
 	<supportedVersions>
-		<li>1.4</li>
+		<li>1.5</li>
 	</supportedVersions>
 	<description>Little package of tools for handling in-game alterations to certain values (mostly visual) that would otherwise require a game restart.\n\nRequires Tabula Rasa as it provides options for a handful of visual comps &amp; extensions and makes use of some UI tools for building the UI quickly and easily.\nRequires the Vanilla Expanded Framework as it provides options for the gene extension to be altered at runtime.</description>
 	<modDependencies>

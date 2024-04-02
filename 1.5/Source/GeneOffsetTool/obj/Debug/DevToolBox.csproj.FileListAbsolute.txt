@@ -1,0 +1,12 @@
+F:\RWModCategories\Neronix17\_UI\GeneOffsetTool\1.4\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.AssemblyReference.cache
+F:\RWModCategories\Neronix17\_UI\GeneOffsetTool\1.4\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.CoreCompileInputs.cache
+F:\RWModCategories\Neronix17\_UI\GeneOffsetTool\1.4\Source\GeneOffsetTool\obj\Debug\GeneOffsetTool.dll
+F:\RWModCategories\Neronix17\_UI\GeneOffsetTool\1.4\Assemblies\GeneOffsetTool.dll
+F:\RWModCategories\Neronix17\_UI\DevToolBox\1.4\Assemblies\DevToolBox.dll
+F:\RWModCategories\Neronix17\_UI\DevToolBox\1.4\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.AssemblyReference.cache
+F:\RWModCategories\Neronix17\_UI\DevToolBox\1.4\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.CoreCompileInputs.cache
+F:\RWModCategories\Neronix17\_UI\DevToolBox\1.4\Source\GeneOffsetTool\obj\Debug\DevToolBox.dll
+F:\RWModCategories\Neronix17\_UI\DevToolBox\1.5\Assemblies\DevToolBox.dll
+F:\RWModCategories\Neronix17\_UI\DevToolBox\1.5\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.AssemblyReference.cache
+F:\RWModCategories\Neronix17\_UI\DevToolBox\1.5\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.CoreCompileInputs.cache
+F:\RWModCategories\Neronix17\_UI\DevToolBox\1.5\Source\GeneOffsetTool\obj\Debug\DevToolBox.dll
