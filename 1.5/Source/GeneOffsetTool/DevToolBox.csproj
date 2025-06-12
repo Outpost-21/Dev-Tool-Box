@@ -93,6 +93,7 @@
   <ItemGroup>
     <Compile Include="DevToolBoxPrefs.cs" />
     <Compile Include="DevToolBoxTex.cs" />
+    <Compile Include="Harmony\Patch_RecipeDefGenerator_SetIngredients.cs" />
     <Compile Include="UI\Dialog_BuildingEditor.cs" />
     <Compile Include="Harmony\Patch_DebugWindowsOpener_DrawButtons.cs" />
     <Compile Include="Utilities\LogUtil.cs" />

@@ -105,7 +105,7 @@ namespace DevToolBox
                         listing.CheckboxLabeled("<dontColourFur>", ref geneExt.dontColourFur);
                         listing.CheckboxLabeled("<furHidesBody>", ref geneExt.furHidesBody);
                     }
-                    DoPerBodyOffsets(listing, geneExt);
+                    //DoPerBodyOffsets(listing, geneExt);
                 }
                 if (!Find.Selector.SelectedPawns.NullOrEmpty())
                 {
@@ -120,41 +120,41 @@ namespace DevToolBox
             }
         }
 
-        public void DoPerBodyOffsets(Listing_Standard listing, GeneExtension geneExt)
-        {
-            if (!geneExt.offsets?.south?.bodyTypes?.NullOrEmpty() ?? false)
-            {
-                listing.LabelBacked("South Offsets", Color.white);
-                foreach (GeneExtension.BodyTypeOffset bodyOffset in geneExt.offsets.south.bodyTypes)
-                {
-                    listing.AddVector3TextFields(bodyOffset.bodyType.defName, ref bodyOffset.offset.x, ref bodyOffset.offset.y, ref bodyOffset.offset.z);
-                }
-            }
-            if (!geneExt.offsets?.north?.bodyTypes?.NullOrEmpty() ?? false)
-            {
-                listing.LabelBacked("North Offsets", Color.white);
-                foreach (GeneExtension.BodyTypeOffset bodyOffset in geneExt.offsets.north.bodyTypes)
-                {
-                    listing.AddVector3TextFields(bodyOffset.bodyType.defName, ref bodyOffset.offset.x, ref bodyOffset.offset.y, ref bodyOffset.offset.z);
-                }
-            }
-            if (!geneExt.offsets?.east?.bodyTypes?.NullOrEmpty() ?? false)
-            {
-                listing.LabelBacked("East Offsets", Color.white);
-                foreach (GeneExtension.BodyTypeOffset bodyOffset in geneExt.offsets.east.bodyTypes)
-                {
-                    listing.AddVector3TextFields(bodyOffset.bodyType.defName, ref bodyOffset.offset.x, ref bodyOffset.offset.y, ref bodyOffset.offset.z);
-                }
-            }
-            if (!geneExt.offsets?.west?.bodyTypes?.NullOrEmpty() ?? false)
-            {
-                listing.LabelBacked("West Offsets", Color.white);
-                foreach (GeneExtension.BodyTypeOffset bodyOffset in geneExt.offsets.west.bodyTypes)
-                {
-                    listing.AddVector3TextFields(bodyOffset.bodyType.defName, ref bodyOffset.offset.x, ref bodyOffset.offset.y, ref bodyOffset.offset.z);
-                }
-            }
-        }
+        //public void DoPerBodyOffsets(Listing_Standard listing, GeneExtension geneExt)
+        //{
+        //    if (!geneExt..offsets?.south?.bodyTypes?.NullOrEmpty() ?? false)
+        //    {
+        //        listing.LabelBacked("South Offsets", Color.white);
+        //        foreach (GeneExtension.BodyTypeOffset bodyOffset in geneExt.offsets.south.bodyTypes)
+        //        {
+        //            listing.AddVector3TextFields(bodyOffset.bodyType.defName, ref bodyOffset.offset.x, ref bodyOffset.offset.y, ref bodyOffset.offset.z);
+        //        }
+        //    }
+        //    if (!geneExt.offsets?.north?.bodyTypes?.NullOrEmpty() ?? false)
+        //    {
+        //        listing.LabelBacked("North Offsets", Color.white);
+        //        foreach (GeneExtension.BodyTypeOffset bodyOffset in geneExt.offsets.north.bodyTypes)
+        //        {
+        //            listing.AddVector3TextFields(bodyOffset.bodyType.defName, ref bodyOffset.offset.x, ref bodyOffset.offset.y, ref bodyOffset.offset.z);
+        //        }
+        //    }
+        //    if (!geneExt.offsets?.east?.bodyTypes?.NullOrEmpty() ?? false)
+        //    {
+        //        listing.LabelBacked("East Offsets", Color.white);
+        //        foreach (GeneExtension.BodyTypeOffset bodyOffset in geneExt.offsets.east.bodyTypes)
+        //        {
+        //            listing.AddVector3TextFields(bodyOffset.bodyType.defName, ref bodyOffset.offset.x, ref bodyOffset.offset.y, ref bodyOffset.offset.z);
+        //        }
+        //    }
+        //    if (!geneExt.offsets?.west?.bodyTypes?.NullOrEmpty() ?? false)
+        //    {
+        //        listing.LabelBacked("West Offsets", Color.white);
+        //        foreach (GeneExtension.BodyTypeOffset bodyOffset in geneExt.offsets.west.bodyTypes)
+        //        {
+        //            listing.AddVector3TextFields(bodyOffset.bodyType.defName, ref bodyOffset.offset.x, ref bodyOffset.offset.y, ref bodyOffset.offset.z);
+        //        }
+        //    }
+        //}
 
         public IEnumerable<FloatMenuOption> GetAllGenesWithGraphicsDropdown()
         {
