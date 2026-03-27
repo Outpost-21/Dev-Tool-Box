@@ -44,9 +44,25 @@ namespace DevToolBox
 					DevToolBoxMod.settings.Write();
 				}
 			}
-		}
+        }
 
-		static DevToolBoxPrefs()
+        public static Vector2 ResearchEditorPosition
+        {
+            get
+            {
+                return Setting.researchEditorPosition;
+            }
+            set
+            {
+                if (Setting.researchEditorPosition != value)
+                {
+                    Setting.researchEditorPosition = value;
+                    DevToolBoxMod.settings.Write();
+                }
+            }
+        }
+
+        static DevToolBoxPrefs()
         {
 
         }

@@ -63,7 +63,19 @@ namespace DevToolBox
 				{
 					windowStack.Add(new Dialog_BuildingEditor());
 				}
-			}
-		}
+            }
+            if (widgets.ButtonIcon(DevToolBoxTex.DebugResearchEditor, "Open the Research Editor. \n\nAllows editing of research, the tech level, position and prerequisites, with exporting to clipboard of either details changed or a patch that automatically handles the changing of those details."))
+            {
+                WindowStack windowStack = Find.WindowStack;
+                if (windowStack.IsOpen<Dialog_ResearchEditor>())
+                {
+                    windowStack.TryRemove(typeof(Dialog_ResearchEditor));
+                }
+                else
+                {
+                    windowStack.Add(new Dialog_ResearchEditor());
+                }
+            }
+        }
 	}
 }

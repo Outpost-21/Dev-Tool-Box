@@ -14,5 +14,6 @@ namespace DevToolBox
     {
         public static readonly Texture2D DebugGeneEditor = ContentFinder<Texture2D>.Get("Adjuster/UI/DebugGeneEditor");
         public static readonly Texture2D DebugBuildingEditor = ContentFinder<Texture2D>.Get("Adjuster/UI/DebugBuildingEditor");
+        public static readonly Texture2D DebugResearchEditor = ContentFinder<Texture2D>.Get("Adjuster/UI/DebugResearchEditor");
     }
 }

@@ -15,6 +15,7 @@ namespace DevToolBox
 
         public Vector2 geneEditorPosition;
         public Vector2 buildingEditorPosition;
+        public Vector2 researchEditorPosition;
 
         public override void ExposeData()
         {

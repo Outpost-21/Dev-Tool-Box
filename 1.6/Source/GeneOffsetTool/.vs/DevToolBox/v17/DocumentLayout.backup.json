@@ -3,28 +3,44 @@
   "WorkspaceRootPath": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|f:\\rwmodcategories\\neronix17\\_ui\\devtoolbox\\1.6\\source\\geneoffsettool\\devtoolboxmod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:devtoolboxmod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\ui\\dialog_geneeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:ui\\dialog_geneeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|f:\\rwmodcategories\\neronix17\\_ui\\devtoolbox\\1.6\\source\\geneoffsettool\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|f:\\rwmodcategories\\neronix17\\_ui\\devtoolbox\\1.6\\source\\geneoffsettool\\harmony\\patch_recipedefgenerator_setingredients.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:harmony\\patch_recipedefgenerator_setingredients.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|f:\\rwmodcategories\\neronix17\\_ui\\devtoolbox\\1.6\\source\\geneoffsettool\\ui\\dialog_researcheditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:ui\\dialog_researcheditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\harmony\\patch_debugwindowsopener_drawbuttons.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:harmony\\patch_debugwindowsopener_drawbuttons.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|f:\\rwmodcategories\\neronix17\\_ui\\devtoolbox\\1.6\\source\\geneoffsettool\\devtoolboxtex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:devtoolboxtex.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|f:\\rwmodcategories\\neronix17\\_ui\\devtoolbox\\1.6\\source\\geneoffsettool\\devtoolboxsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:devtoolboxsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|f:\\rwmodcategories\\neronix17\\_ui\\devtoolbox\\1.6\\source\\geneoffsettool\\devtoolboxprefs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:devtoolboxprefs.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\harmony\\patch_recipedefgenerator_setingredients.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:harmony\\patch_recipedefgenerator_setingredients.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\ui\\dialog_geneeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:ui\\dialog_geneeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\ui\\dialog_buildingeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:ui\\dialog_buildingeditor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|f:\\rwmodcategories\\neronix17\\_ui\\devtoolbox\\1.6\\source\\geneoffsettool\\devtoolboxmod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:devtoolboxmod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A19F4F07-A4ED-4008-8A9F-FFEFA0E00D46}|DevToolBox.csproj|solutionrelative:properties\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,11 +50,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 231,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DevToolBoxTex.cs",
+              "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxTex.cs",
+              "RelativeDocumentMoniker": "DevToolBoxTex.cs",
+              "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxTex.cs",
+              "RelativeToolTip": "DevToolBoxTex.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T15:38:05.806Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DevToolBoxPrefs.cs",
+              "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxPrefs.cs",
+              "RelativeDocumentMoniker": "DevToolBoxPrefs.cs",
+              "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxPrefs.cs",
+              "RelativeToolTip": "DevToolBoxPrefs.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAkwDoAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T15:37:11.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DevToolBoxSettings.cs",
+              "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxSettings.cs",
+              "RelativeDocumentMoniker": "DevToolBoxSettings.cs",
+              "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxSettings.cs",
+              "RelativeToolTip": "DevToolBoxSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T15:36:26.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Dialog_ResearchEditor.cs",
+              "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\UI\\Dialog_ResearchEditor.cs",
+              "RelativeDocumentMoniker": "UI\\Dialog_ResearchEditor.cs",
+              "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\UI\\Dialog_ResearchEditor.cs",
+              "RelativeToolTip": "UI\\Dialog_ResearchEditor.cs",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAMQAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T15:33:55.623Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "DevToolBoxMod.cs",
               "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxMod.cs",
               "RelativeDocumentMoniker": "DevToolBoxMod.cs",
@@ -51,20 +119,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AssemblyInfo.cs",
-              "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\Properties\\AssemblyInfo.cs",
-              "RelativeDocumentMoniker": "Properties\\AssemblyInfo.cs",
-              "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\Properties\\AssemblyInfo.cs",
-              "RelativeToolTip": "Properties\\AssemblyInfo.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T15:40:41.012Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Patch_RecipeDefGenerator_SetIngredients.cs",
               "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\Harmony\\Patch_RecipeDefGenerator_SetIngredients.cs",
               "RelativeDocumentMoniker": "Harmony\\Patch_RecipeDefGenerator_SetIngredients.cs",
@@ -77,20 +132,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "Patch_DebugWindowsOpener_DrawButtons.cs",
               "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\Harmony\\Patch_DebugWindowsOpener_DrawButtons.cs",
               "RelativeDocumentMoniker": "Harmony\\Patch_DebugWindowsOpener_DrawButtons.cs",
               "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\Harmony\\Patch_DebugWindowsOpener_DrawButtons.cs",
               "RelativeToolTip": "Harmony\\Patch_DebugWindowsOpener_DrawButtons.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAB0AAABNAAAAAAAAAA==",
+              "ViewState": "AgIAACsAAAAAAAAAAAAiwEIAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-02T14:57:20.705Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
+              "Title": "AssemblyInfo.cs",
+              "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\Properties\\AssemblyInfo.cs",
+              "RelativeDocumentMoniker": "Properties\\AssemblyInfo.cs",
+              "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\Properties\\AssemblyInfo.cs",
+              "RelativeToolTip": "Properties\\AssemblyInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-21T15:40:41.012Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "Dialog_GeneEditor.cs",
               "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\UI\\Dialog_GeneEditor.cs",
               "RelativeDocumentMoniker": "UI\\Dialog_GeneEditor.cs",
@@ -103,7 +170,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Dialog_BuildingEditor.cs",
               "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\UI\\Dialog_BuildingEditor.cs",
               "RelativeDocumentMoniker": "UI\\Dialog_BuildingEditor.cs",
