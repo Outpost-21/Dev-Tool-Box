@@ -9,6 +9,8 @@ using VEF.Genes;
 using Verse;
 using LudeonTK;
 using TabulaRasa;
+using static UnityEngine.Scripting.GarbageCollector;
+using System.IO;
 
 namespace DevToolBox
 {
@@ -25,7 +27,7 @@ namespace DevToolBox
 
         public int lastLabelCacheFrame = -1;
 
-        public Vector2 defaultSize = new Vector2(600f, 380f);
+        public Vector2 defaultSize = new Vector2(1200f, 240f);
 
         public Vector2 optionsScrollPosition;
         public float optionsViewRectHeight;
@@ -33,8 +35,8 @@ namespace DevToolBox
         public Dictionary<ResearchProjectDef, ResearchProjectChanges> researchOriginal = new Dictionary<ResearchProjectDef, ResearchProjectChanges>();
         public Dictionary<ResearchProjectDef, ResearchProjectChanges> researchChanges = new Dictionary<ResearchProjectDef, ResearchProjectChanges>();
 
-        public ResearchProjectDef selectedResearch;
-        public ResearchProjectChanges selectedResearchChanges;
+        public ResearchProjectDef SelectedResearch => ((MainTabWindow_Research)Find.WindowStack.WindowOfType<MainTabWindow_Research>())?.selectedProject ?? null;
+        public ResearchProjectChanges SelectedResearchChanges => researchChanges[SelectedResearch];
 
         public Dialog_ResearchEditor()
         {
@@ -79,52 +81,65 @@ namespace DevToolBox
 
         public void DoResearchStuff(Listing_Standard listing)
         {
-            if (listing.ButtonDebug(selectedResearch?.label ?? "Select Research Project...", false))
+            //if (listing.ButtonDebug(SelectedResearch?.label ?? "Select Research Project...", false))
+            //{
+            //    Find.WindowStack.Add(new FloatMenu(GetAllResearch().ToList()));
+            //}
+            PopulateAllResearch();
+            if (SelectedResearch == null)
             {
-                Find.WindowStack.Add(new FloatMenu(GetAllResearch().ToList()));
+                listing.Label("Select a project in research tab first");
+                return;
             }
+            listing.Label($"[{SelectedResearch.modContentPack.Name}] {SelectedResearch.LabelCap}");
             listing.GapLine();
-            if(selectedResearchChanges != null)
+            float curY = listing.curY;
+            listing.ColumnWidth *= 0.32f;
+            if(SelectedResearchChanges != null)
             {
                 // Research Tab
-                if (listing.ButtonTextLabeled("Research Tab", selectedResearchChanges.tab?.LabelCap ?? "Undefined"))
+                if (listing.ButtonTextLabeled("Research Tab", SelectedResearchChanges.tab?.LabelCap ?? "Undefined"))
                 {
                     Find.WindowStack.Add(new FloatMenu(GetResearchTabs().ToList()));
                 }
                 // Tech Level
-                if (listing.ButtonTextLabeled("Tech Level", selectedResearchChanges.techLevel.ToStringSafe()))
+                if (listing.ButtonTextLabeled("Tech Level", SelectedResearchChanges.techLevel.ToStringSafe()))
                 {
                     Find.WindowStack.Add(new FloatMenu(GetTechLevels().ToList()));
                 }
                 // Edit Cost
-                listing.AddLabeledNumericalTextField("Base Cost:", ref selectedResearchChanges.baseCost, 0.5f, 50f, 100000f);
+                listing.AddLabeledNumericalTextField("Base Cost:", ref SelectedResearchChanges.baseCost, 0.5f, 50f, 100000f);
                 // Position
-                listing.AddLabeledNumericalTextField("Horizontal Position (X)", ref selectedResearchChanges.researchViewX, 0.5f, 0f, 1000f);
-                listing.AddLabeledNumericalTextField("Vertical Position (Y)", ref selectedResearchChanges.researchViewY, 0.5f, 0f, 1000f);
+                listing.AddLabeledSlider($"Horizontal Position (X) - {SelectedResearchChanges.researchViewX}", ref SelectedResearchChanges.researchViewX, 0f, 30f, null, null, 1f, false);
+                listing.AddLabeledSlider($"Vertical Position (Y) - {SelectedResearchChanges.researchViewY}", ref SelectedResearchChanges.researchViewY, 0f, 6f, null, null, 0.5f, false);
+                listing.NewColumn();
+                listing.curY = curY;
                 // Prerequisites
-                listing.GapLine();
-                if (selectedResearchChanges.prerequisites == null)
+                if (SelectedResearchChanges.prerequisites == null)
                 {
                     listing.ButtonText("Enable Prerequisites");
                 }
                 else
                 {
-                    for (int i = 0; i < selectedResearchChanges.prerequisites.Count; i++)
+                    for (int i = 0; i < SelectedResearchChanges.prerequisites.Count; i++)
                     {
-                        listing.LabelBacked($"[{selectedResearchChanges.prerequisites[i].modContentPack?.Name ?? "???"}] {selectedResearchChanges.prerequisites[i].LabelCap}", Color.gray, GameFont.Small);
+                        listing.LabelBacked($"- [{SelectedResearchChanges.prerequisites[i].modContentPack?.Name ?? "???"}] {SelectedResearchChanges.prerequisites[i].LabelCap}", Color.gray, GameFont.Small);
                     }
+                    listing.GapLine();
                     if (listing.ButtonText("Add Prerequisites..."))
                     {
                         Find.WindowStack.Add(new FloatMenu(GetPrerequisites(false).ToList()));
                     }
-                    if (!selectedResearchChanges.prerequisites.NullOrEmpty() && listing.ButtonText("Remove Prerequisites..."))
+                    if (!SelectedResearchChanges.prerequisites.NullOrEmpty() && listing.ButtonText("Remove Prerequisites..."))
                     {
                         Find.WindowStack.Add(new FloatMenu(GetPrerequisites(true).ToList()));
                     }
                 }
             }
+            listing.NewColumn();
+            listing.curY = curY;
             // BUTTONS!
-            if (!researchOriginal.NullOrEmpty() && listing.ButtonText("Apply All Changes"))
+            //if (!researchOriginal.NullOrEmpty() && listing.ButtonText("Apply All Changes"))
             {
                 foreach (KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp in researchChanges)
                 {
@@ -192,6 +207,61 @@ namespace DevToolBox
             }
             if (!researchChanges.NullOrEmpty() && listing.ButtonText("Copy XML Patch"))
             {
+                ExportXML(false);
+            }
+            if (!researchChanges.NullOrEmpty() && listing.ButtonText("Export Sigma Patches"))
+            {
+                ExportXML(true);
+            }
+        }
+
+        public void ExportXML(bool sigmaExport)
+        {
+            if (sigmaExport)
+            {
+                List<string> modNames = new List<string>();
+                foreach (KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp in researchChanges)
+                {
+                    if (!modNames.Contains(kvp.Key.modContentPack.ModMetaData.Name))
+                    {
+                        modNames.Add(kvp.Key.modContentPack.ModMetaData.Name);
+                    }
+                }
+                foreach (string s in modNames)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                    sb.AppendLine("<Patch>");
+                    sb.AppendLine();
+                    sb.AppendLine($"    <!-- ============================= {s} ============================= -->");
+                    sb.AppendLine();
+                    foreach (KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp2 in researchChanges.Where(rc => rc.Key.modContentPack.ModMetaData.Name == s))
+                    {
+                        ResearchProjectChanges o = researchOriginal[kvp2.Key];
+                        ResearchProjectChanges c = kvp2.Value;
+                        sb.AppendLine($"    <!-- ============================= {kvp2.Key.LabelCap} ============================= -->");
+                        sb.AppendLine();
+                        sb.AppendLine("    <Operation Class=\"PatchOperationSequence\">");
+                        sb.AppendLine("        <operations>");
+                        {
+                            ExportXML_ResearchTab(ref sb, kvp2, o, c, true);
+                            ExportXML_TechLevel(ref sb, kvp2, o, c, true);
+                            ExportXML_BaseCost(ref sb, kvp2, o, c);
+                            ExportXML_PositionX(ref sb, kvp2, o, c, true);
+                            ExportXML_PositionY(ref sb, kvp2, o, c, true);
+                            ExportXML_Prerequisites(ref sb, kvp2, o, c);
+                        }
+                        sb.AppendLine("        </operations>");
+                        sb.AppendLine("    </Operation>");
+                        sb.AppendLine();
+                    }
+                    sb.AppendLine("</Patch>");
+                    File.WriteAllText(Path.Combine(DevToolBoxMod.mod.Content.ModMetaData.RootDir.FullName, $"/SigmaExports/{ToExportSafeString(s)}.xml"), sb.ToString());
+                }
+                Messages.Message("Patch data exported to mod directory", MessageTypeDefOf.SituationResolved, historical: false);
+            }
+            else
+            {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                 sb.AppendLine("<Patch>");
@@ -201,141 +271,17 @@ namespace DevToolBox
                     ResearchProjectChanges o = researchOriginal[kvp.Key];
                     ResearchProjectChanges c = kvp.Value;
                     if (c.Equals(o)) { continue; }
-                    sb.AppendLine($"    <!-- ==================== {kvp.Key.LabelCap} ============================= -->");
+                    sb.AppendLine($"    <!-- ============================= {kvp.Key.LabelCap} ============================= -->");
                     sb.AppendLine();
                     sb.AppendLine("    <Operation Class=\"PatchOperationSequence\">");
                     sb.AppendLine("        <operations>");
                     {
-                        if (o.tab != c.tab)
-                        {
-                            sb.AppendLine($"            <!-- ============================= Research Tab ============================= -->");
-                            sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
-                            sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/tab</xpath>");
-                            sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/tab</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <tab>{c.tab}</tab>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </match");
-                            sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <tab>{c.tab}</tab>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </nomatch>");
-                            sb.AppendLine($"            </li>");
-                        }
-                        if (o.techLevel != c.techLevel)
-                        {
-                            sb.AppendLine($"            <!-- ============================= Tech Level ============================= -->");
-                            sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
-                            sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/techLevel</xpath>");
-                            sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/techLevel</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <techLevel>{c.techLevel}</techLevel>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </match");
-                            sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <techLevel>{c.techLevel}</techLevel>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </nomatch>");
-                            sb.AppendLine($"            </li>");
-                        }
-                        if (o.baseCost != c.baseCost)
-                        {
-                            sb.AppendLine($"            <!-- ============================= Base Cost ============================= -->");
-                            sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
-                            sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/baseCost</xpath>");
-                            sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/baseCost</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <baseCost>{c.baseCost}</baseCost>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </match>");
-                            sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <baseCost>{c.baseCost}</baseCost>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </nomatch>");
-                            sb.AppendLine($"            </li>");
-                        }
-                        if (o.researchViewX != c.researchViewX)
-                        {
-                            sb.AppendLine($"            <!-- ============================= Horizontal Position ============================= -->");
-                            sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
-                            sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/researchViewX</xpath>");
-                            sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/researchViewX</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <researchViewX>{c.researchViewX}</researchViewX>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </match>");
-                            sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <researchViewX>{c.researchViewX}</researchViewX>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </nomatch>");
-                            sb.AppendLine($"            </li>");
-                        }
-                        if (o.researchViewY != c.researchViewY)
-                        {
-                            sb.AppendLine($"            <!-- ============================= Vertical Position ============================= -->");
-                            sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
-                            sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/researchViewY</xpath>");
-                            sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/researchViewY</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <researchViewY>{c.researchViewY}</researchViewY>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </match>");
-                            sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            sb.AppendLine($"                        <researchViewY>{c.researchViewY}</researchViewY>");
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </nomatch>");
-                            sb.AppendLine($"            </li>");
-                        }
-                        if (o.prerequisites != c.prerequisites)
-                        {
-                            sb.AppendLine($"            <!-- ============================= Vertical Position ============================= -->");
-                            sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
-                            sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/prerequisites</xpath>");
-                            sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/prerequisites</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            DoPrerequisites();
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </match>");
-                            sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
-                            sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
-                            sb.AppendLine($"                    <value>");
-                            DoPrerequisites();
-                            sb.AppendLine($"                    </value>");
-                            sb.AppendLine($"                </nomatch>");
-                            sb.AppendLine($"            </li>");
-                            void DoPrerequisites()
-                            {
-                                if (c.prerequisites.NullOrEmpty())
-                                {
-                                    sb.AppendLine($"                        <prerequisites Inherit=\"False\"/>");
-                                }
-                                else
-                                {
-                                    sb.AppendLine($"                        <prerequisites>");
-                                    for (int i = 0; i < c.prerequisites.Count; i++)
-                                    {
-                                        sb.AppendLine($"                            <li>{c.prerequisites[i].defName}</li>");
-                                    }
-                                    sb.AppendLine($"                        </prerequisites>");
-                                }
-                            }
-                        }
+                        ExportXML_ResearchTab(ref sb, kvp, o, c);
+                        ExportXML_TechLevel(ref sb, kvp, o, c);
+                        ExportXML_BaseCost(ref sb, kvp, o, c);
+                        ExportXML_PositionX(ref sb, kvp, o, c);
+                        ExportXML_PositionY(ref sb, kvp, o, c);
+                        ExportXML_Prerequisites(ref sb, kvp, o, c);
                     }
                     sb.AppendLine("        </operations>");
                     sb.AppendLine("    </Operation>");
@@ -347,18 +293,189 @@ namespace DevToolBox
             }
         }
 
+        public string ToExportSafeString(string s)
+        {
+            foreach (var c in Path.GetInvalidFileNameChars())
+            {
+                s = s.Replace(c, '_');
+            }
+            return s;
+        }
+
+        public void ExportXML_ResearchTab(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
+        {
+            if (o.tab != c.tab)
+            {
+                sb.AppendLine($"            <!-- ============================= Research Tab ============================= -->");
+                sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
+                sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/tab</xpath>");
+                sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/tab</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <tab>{c.tab}</tab>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </match");
+                sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <tab>{c.tab}</tab>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </nomatch>");
+                sb.AppendLine($"            </li>");
+            }
+        }
+
+        public void ExportXML_TechLevel(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
+        {
+            if (o.techLevel != c.techLevel)
+            {
+                sb.AppendLine($"            <!-- ============================= Tech Level ============================= -->");
+                sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
+                sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/techLevel</xpath>");
+                sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/techLevel</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <techLevel>{c.techLevel}</techLevel>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </match");
+                sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <techLevel>{c.techLevel}</techLevel>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </nomatch>");
+                sb.AppendLine($"            </li>");
+            }
+        }
+
+        public void ExportXML_BaseCost(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
+        {
+            if (o.baseCost != c.baseCost)
+            {
+                sb.AppendLine($"            <!-- ============================= Base Cost ============================= -->");
+                sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
+                sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/baseCost</xpath>");
+                sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/baseCost</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <baseCost>{c.baseCost}</baseCost>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </match>");
+                sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <baseCost>{c.baseCost}</baseCost>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </nomatch>");
+                sb.AppendLine($"            </li>");
+            }
+        }
+
+        public void ExportXML_PositionX(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
+        {
+            if (o.researchViewX != c.researchViewX)
+            {
+                sb.AppendLine($"            <!-- ============================= Horizontal Position ============================= -->");
+                sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
+                sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/researchViewX</xpath>");
+                sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/researchViewX</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <researchViewX>{c.researchViewX}</researchViewX>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </match>");
+                sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <researchViewX>{c.researchViewX}</researchViewX>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </nomatch>");
+                sb.AppendLine($"            </li>");
+            }
+        }
+
+        public void ExportXML_PositionY(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
+        {
+            if (o.researchViewY != c.researchViewY)
+            {
+                sb.AppendLine($"            <!-- ============================= Vertical Position ============================= -->");
+                sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
+                sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/researchViewY</xpath>");
+                sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/researchViewY</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <researchViewY>{c.researchViewY}</researchViewY>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </match>");
+                sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
+                sb.AppendLine($"                    <value>");
+                sb.AppendLine($"                        <researchViewY>{c.researchViewY}</researchViewY>");
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </nomatch>");
+                sb.AppendLine($"            </li>");
+            }
+        }
+
+        public void ExportXML_Prerequisites(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
+        {
+            if (force || o.prerequisites != c.prerequisites)
+            {
+                sb.AppendLine($"            <!-- ============================= Vertical Position ============================= -->");
+                sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
+                sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/prerequisites</xpath>");
+                sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/prerequisites</xpath>");
+                sb.AppendLine($"                    <value>");
+                if (c.prerequisites.NullOrEmpty())
+                {
+                    sb.AppendLine($"                        <prerequisites Inherit=\"False\"/>");
+                }
+                else
+                {
+                    sb.AppendLine($"                        <prerequisites>");
+                    for (int i = 0; i < c.prerequisites.Count; i++)
+                    {
+                        sb.AppendLine($"                            <li>{c.prerequisites[i].defName}</li>");
+                    }
+                    sb.AppendLine($"                        </prerequisites>");
+                }
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </match>");
+                sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
+                sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
+                sb.AppendLine($"                    <value>");
+                if (c.prerequisites.NullOrEmpty())
+                {
+                    sb.AppendLine($"                        <prerequisites Inherit=\"False\"/>");
+                }
+                else
+                {
+                    sb.AppendLine($"                        <prerequisites>");
+                    for (int i = 0; i < c.prerequisites.Count; i++)
+                    {
+                        sb.AppendLine($"                            <li>{c.prerequisites[i].defName}</li>");
+                    }
+                    sb.AppendLine($"                        </prerequisites>");
+                }
+                sb.AppendLine($"                    </value>");
+                sb.AppendLine($"                </nomatch>");
+                sb.AppendLine($"            </li>");
+            }
+        }
+
         public IEnumerable<FloatMenuOption> GetPrerequisites(bool remove = false)
         {
             foreach (ResearchProjectDef proj in DefDatabase<ResearchProjectDef>.AllDefs)
             {
-                if (selectedResearch == proj) { continue; }
-                if (remove && selectedResearchChanges.prerequisites.Contains(proj))
+                if (SelectedResearch == proj) { continue; }
+                if (remove && SelectedResearchChanges.prerequisites.Contains(proj))
                 {
-                    yield return new FloatMenuOption($"Remove {proj.LabelCap}", delegate { selectedResearchChanges.prerequisites.Remove(proj); });
+                    yield return new FloatMenuOption($"Remove {proj.LabelCap}", delegate { SelectedResearchChanges.prerequisites.Remove(proj); });
                 }
                 else if (!remove)
                 {
-                    yield return new FloatMenuOption($"Add {proj.LabelCap}", delegate { selectedResearchChanges.prerequisites.Add(proj); });
+                    yield return new FloatMenuOption($"Add {proj.LabelCap}", delegate { SelectedResearchChanges.prerequisites.Add(proj); });
                 }
             }
             yield break;
@@ -368,25 +485,25 @@ namespace DevToolBox
         {
             foreach(ResearchTabDef tab in DefDatabase<ResearchTabDef>.AllDefs)
             {
-                yield return new FloatMenuOption(tab.LabelCap, delegate { selectedResearchChanges.tab = tab; });
+                yield return new FloatMenuOption(tab.LabelCap, delegate { SelectedResearchChanges.tab = tab; });
             }
             yield break;
         }
 
         public IEnumerable<FloatMenuOption> GetTechLevels()
         {
-            yield return new FloatMenuOption("Undefined", delegate { selectedResearchChanges.techLevel = TechLevel.Undefined; });
-            yield return new FloatMenuOption("Animal", delegate { selectedResearchChanges.techLevel = TechLevel.Animal; });
-            yield return new FloatMenuOption("Neolithic", delegate { selectedResearchChanges.techLevel = TechLevel.Neolithic; });
-            yield return new FloatMenuOption("Medieval", delegate { selectedResearchChanges.techLevel = TechLevel.Medieval; });
-            yield return new FloatMenuOption("Industrial", delegate { selectedResearchChanges.techLevel = TechLevel.Industrial; });
-            yield return new FloatMenuOption("Spacer", delegate { selectedResearchChanges.techLevel = TechLevel.Spacer; });
-            yield return new FloatMenuOption("Ultra", delegate { selectedResearchChanges.techLevel = TechLevel.Ultra; });
-            yield return new FloatMenuOption("Archotech", delegate { selectedResearchChanges.techLevel = TechLevel.Archotech; });
+            yield return new FloatMenuOption("Undefined", delegate { SelectedResearchChanges.techLevel = TechLevel.Undefined; });
+            yield return new FloatMenuOption("Animal", delegate { SelectedResearchChanges.techLevel = TechLevel.Animal; });
+            yield return new FloatMenuOption("Neolithic", delegate { SelectedResearchChanges.techLevel = TechLevel.Neolithic; });
+            yield return new FloatMenuOption("Medieval", delegate { SelectedResearchChanges.techLevel = TechLevel.Medieval; });
+            yield return new FloatMenuOption("Industrial", delegate { SelectedResearchChanges.techLevel = TechLevel.Industrial; });
+            yield return new FloatMenuOption("Spacer", delegate { SelectedResearchChanges.techLevel = TechLevel.Spacer; });
+            yield return new FloatMenuOption("Ultra", delegate { SelectedResearchChanges.techLevel = TechLevel.Ultra; });
+            yield return new FloatMenuOption("Archotech", delegate { SelectedResearchChanges.techLevel = TechLevel.Archotech; });
             yield break;
         }
 
-        public IEnumerable<FloatMenuOption> GetAllResearch()
+        public void PopulateAllResearch()
         {
             foreach(ResearchProjectDef proj in DefDatabase<ResearchProjectDef>.AllDefs)
             {
@@ -413,9 +530,7 @@ namespace DevToolBox
                         techLevel = proj.techLevel,
                     });
                 }
-                yield return new FloatMenuOption($"[{proj.modContentPack?.Name ?? "???"}] {proj.label}", delegate { selectedResearch = proj; selectedResearchChanges = researchChanges[proj]; });
             }
-            yield break;
         }
 
         public override void WindowUpdate()
