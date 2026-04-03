@@ -50,20 +50,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 231,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DevToolBoxTex.cs",
-              "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxTex.cs",
-              "RelativeDocumentMoniker": "DevToolBoxTex.cs",
-              "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxTex.cs",
-              "RelativeToolTip": "DevToolBoxTex.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-27T15:38:05.806Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -96,10 +84,22 @@
               "RelativeDocumentMoniker": "UI\\Dialog_ResearchEditor.cs",
               "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\UI\\Dialog_ResearchEditor.cs",
               "RelativeToolTip": "UI\\Dialog_ResearchEditor.cs",
-              "ViewState": "AgIAAMwAAAAAAAAAAAAqwPgAAABBAAAAAAAAAA==",
+              "ViewState": "AgIAANgAAAAAAAAAAAAqwPAAAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-27T15:33:55.623Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DevToolBoxTex.cs",
+              "DocumentMoniker": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxTex.cs",
+              "RelativeDocumentMoniker": "DevToolBoxTex.cs",
+              "ToolTip": "F:\\RWModCategories\\Neronix17\\_UI\\DevToolBox\\1.6\\Source\\GeneOffsetTool\\DevToolBoxTex.cs",
+              "RelativeToolTip": "DevToolBoxTex.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-27T15:38:05.806Z"
             },
             {
               "$type": "Document",

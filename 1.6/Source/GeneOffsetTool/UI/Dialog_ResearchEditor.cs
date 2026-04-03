@@ -111,7 +111,7 @@ namespace DevToolBox
                 listing.AddLabeledNumericalTextField("Base Cost:", ref SelectedResearchChanges.baseCost, 0.5f, 50f, 100000f);
                 // Position
                 listing.AddLabeledSlider($"Horizontal Position (X) - {SelectedResearchChanges.researchViewX}", ref SelectedResearchChanges.researchViewX, 0f, 30f, null, null, 1f, false);
-                listing.AddLabeledSlider($"Vertical Position (Y) - {SelectedResearchChanges.researchViewY}", ref SelectedResearchChanges.researchViewY, 0f, 6f, null, null, 0.5f, false);
+                listing.AddLabeledSlider($"Vertical Position (Y) - {SelectedResearchChanges.researchViewY}", ref SelectedResearchChanges.researchViewY, 0f, 10f, null, null, 0.5f, false);
                 listing.NewColumn();
                 listing.curY = curY;
                 // Prerequisites
@@ -145,6 +145,7 @@ namespace DevToolBox
                 {
                     ResearchProjectDef o = kvp.Key;
                     ResearchProjectChanges c = kvp.Value;
+                    o.tab = c.tab;
                     o.baseCost = c.baseCost;
                     o.techLevel = c.techLevel;
                     o.researchViewX = c.researchViewX;
@@ -233,7 +234,12 @@ namespace DevToolBox
                     sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                     sb.AppendLine("<Patch>");
                     sb.AppendLine();
-                    sb.AppendLine($"    <!-- ============================= {s} ============================= -->");
+                    string modNameString = $"============================= {s} =============================";
+                    sb.AppendLine($"    <!--");
+                    sb.AppendLine($"        {new string('=', modNameString.Count())}");
+                    sb.AppendLine($"        {modNameString}");
+                    sb.AppendLine($"        {new string('=', modNameString.Count())}");
+                    sb.AppendLine($"    -->");
                     sb.AppendLine();
                     foreach (KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp2 in researchChanges.Where(rc => rc.Key.modContentPack.ModMetaData.Name == s))
                     {
@@ -241,8 +247,10 @@ namespace DevToolBox
                         ResearchProjectChanges c = kvp2.Value;
                         sb.AppendLine($"    <!-- ============================= {kvp2.Key.LabelCap} ============================= -->");
                         sb.AppendLine();
-                        sb.AppendLine("    <Operation Class=\"PatchOperationSequence\">");
-                        sb.AppendLine("        <operations>");
+                        sb.AppendLine("    <Operation Class=\"PatchOperationConditional\">");
+                        sb.AppendLine($"        <xpath>/Defs/ResearchProjectDef[defName=\"{kvp2.Key.defName}\"]</xpath>");
+                        sb.AppendLine("        <match Class=\"PatchOperationSequence\">");
+                        sb.AppendLine("            <operations>");
                         {
                             ExportXML_ResearchTab(ref sb, kvp2, o, c, true);
                             ExportXML_TechLevel(ref sb, kvp2, o, c, true);
@@ -251,7 +259,8 @@ namespace DevToolBox
                             ExportXML_PositionY(ref sb, kvp2, o, c, true);
                             ExportXML_Prerequisites(ref sb, kvp2, o, c);
                         }
-                        sb.AppendLine("        </operations>");
+                        sb.AppendLine("            </operations>");
+                        sb.AppendLine("        </match>");
                         sb.AppendLine("    </Operation>");
                         sb.AppendLine();
                     }
@@ -273,8 +282,10 @@ namespace DevToolBox
                     if (c.Equals(o)) { continue; }
                     sb.AppendLine($"    <!-- ============================= {kvp.Key.LabelCap} ============================= -->");
                     sb.AppendLine();
-                    sb.AppendLine("    <Operation Class=\"PatchOperationSequence\">");
-                    sb.AppendLine("        <operations>");
+                    sb.AppendLine("    <Operation Class=\"PatchOperationConditional\">");
+                    sb.AppendLine($"        <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
+                    sb.AppendLine("        <match Class=\"PatchOperationSequence\">");
+                    sb.AppendLine("            <operations>");
                     {
                         ExportXML_ResearchTab(ref sb, kvp, o, c);
                         ExportXML_TechLevel(ref sb, kvp, o, c);
@@ -283,7 +294,8 @@ namespace DevToolBox
                         ExportXML_PositionY(ref sb, kvp, o, c);
                         ExportXML_Prerequisites(ref sb, kvp, o, c);
                     }
-                    sb.AppendLine("        </operations>");
+                    sb.AppendLine("            </operations>");
+                    sb.AppendLine("        </match>");
                     sb.AppendLine("    </Operation>");
                     sb.AppendLine();
                 }
@@ -304,7 +316,7 @@ namespace DevToolBox
 
         public void ExportXML_ResearchTab(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
         {
-            if (o.tab != c.tab)
+            if (o.tab != c.tab || force)
             {
                 sb.AppendLine($"            <!-- ============================= Research Tab ============================= -->");
                 sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
@@ -314,7 +326,7 @@ namespace DevToolBox
                 sb.AppendLine($"                    <value>");
                 sb.AppendLine($"                        <tab>{c.tab}</tab>");
                 sb.AppendLine($"                    </value>");
-                sb.AppendLine($"                </match");
+                sb.AppendLine($"                </match>");
                 sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
                 sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
                 sb.AppendLine($"                    <value>");
@@ -327,7 +339,7 @@ namespace DevToolBox
 
         public void ExportXML_TechLevel(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
         {
-            if (o.techLevel != c.techLevel)
+            if (o.techLevel != c.techLevel || force)
             {
                 sb.AppendLine($"            <!-- ============================= Tech Level ============================= -->");
                 sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
@@ -337,7 +349,7 @@ namespace DevToolBox
                 sb.AppendLine($"                    <value>");
                 sb.AppendLine($"                        <techLevel>{c.techLevel}</techLevel>");
                 sb.AppendLine($"                    </value>");
-                sb.AppendLine($"                </match");
+                sb.AppendLine($"                </match>");
                 sb.AppendLine($"                <nomatch Class=\"PatchOperationAdd\">");
                 sb.AppendLine($"                    <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]</xpath>");
                 sb.AppendLine($"                    <value>");
@@ -350,7 +362,7 @@ namespace DevToolBox
 
         public void ExportXML_BaseCost(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
         {
-            if (o.baseCost != c.baseCost)
+            if (o.baseCost != c.baseCost || force)
             {
                 sb.AppendLine($"            <!-- ============================= Base Cost ============================= -->");
                 sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
@@ -373,7 +385,7 @@ namespace DevToolBox
 
         public void ExportXML_PositionX(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
         {
-            if (o.researchViewX != c.researchViewX)
+            if (o.researchViewX != c.researchViewX || force)
             {
                 sb.AppendLine($"            <!-- ============================= Horizontal Position ============================= -->");
                 sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
@@ -396,7 +408,7 @@ namespace DevToolBox
 
         public void ExportXML_PositionY(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
         {
-            if (o.researchViewY != c.researchViewY)
+            if (o.researchViewY != c.researchViewY || force)
             {
                 sb.AppendLine($"            <!-- ============================= Vertical Position ============================= -->");
                 sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
@@ -419,7 +431,7 @@ namespace DevToolBox
 
         public void ExportXML_Prerequisites(ref StringBuilder sb, KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp, ResearchProjectChanges o, ResearchProjectChanges c, bool force = false)
         {
-            if (force || o.prerequisites != c.prerequisites)
+            if (o.prerequisites != c.prerequisites || force)
             {
                 sb.AppendLine($"            <!-- ============================= Vertical Position ============================= -->");
                 sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
