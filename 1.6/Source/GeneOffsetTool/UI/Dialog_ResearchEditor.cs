@@ -138,8 +138,6 @@ namespace DevToolBox
             }
             listing.NewColumn();
             listing.curY = curY;
-            // BUTTONS!
-            //if (!researchOriginal.NullOrEmpty() && listing.ButtonText("Apply All Changes"))
             {
                 foreach (KeyValuePair<ResearchProjectDef, ResearchProjectChanges> kvp in researchChanges)
                 {
@@ -433,7 +431,7 @@ namespace DevToolBox
         {
             if (o.prerequisites != c.prerequisites || force)
             {
-                sb.AppendLine($"            <!-- ============================= Vertical Position ============================= -->");
+                sb.AppendLine($"            <!-- ============================= Prerequisites ============================= -->");
                 sb.AppendLine($"            <li Class=\"PatchOperationConditional\">");
                 sb.AppendLine($"                <xpath>/Defs/ResearchProjectDef[defName=\"{kvp.Key.defName}\"]/prerequisites</xpath>");
                 sb.AppendLine($"                <match Class=\"PatchOperationReplace\">");
