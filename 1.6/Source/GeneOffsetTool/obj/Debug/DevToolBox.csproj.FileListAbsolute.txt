@@ -14,3 +14,7 @@ F:\RWModCategories\Neronix17\_UI\DevToolBox\1.6\Source\GeneOffsetTool\obj\Debug\
 F:\RWModCategories\Neronix17\_UI\DevToolBox\1.6\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.CoreCompileInputs.cache
 F:\RWModCategories\Neronix17\_UI\DevToolBox\1.6\Source\GeneOffsetTool\obj\Debug\DevToolBox.dll
 F:\RWModCategories\Neronix17\_UI\DevToolBox\1.6\Assemblies\DevToolBox.dll
+G:\RWModCategories\Neronix17\_UI\DevToolBox\1.6\Assemblies\DevToolBox.dll
+G:\RWModCategories\Neronix17\_UI\DevToolBox\1.6\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.AssemblyReference.cache
+G:\RWModCategories\Neronix17\_UI\DevToolBox\1.6\Source\GeneOffsetTool\obj\Debug\DevToolBox.csproj.CoreCompileInputs.cache
+G:\RWModCategories\Neronix17\_UI\DevToolBox\1.6\Source\GeneOffsetTool\obj\Debug\DevToolBox.dll

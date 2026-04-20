@@ -20,6 +20,9 @@ namespace DevToolBox
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref geneEditorPosition, "geneEditorPosition", default(Vector2));
+            Scribe_Values.Look(ref buildingEditorPosition, "buildingEditorPosition", default(Vector2));
+            Scribe_Values.Look(ref researchEditorPosition, "researchEditorPosition", default(Vector2));
         }
 
         public bool IsValidSetting(string input)
